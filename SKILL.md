@@ -78,12 +78,16 @@ All LLM calls MUST use the CodeTrain config system:
 
 ```python
 # codetrain/config.py loads from .env automatically
-from codetrain.config import OPENROUTER_API_KEY, OPENROUTER_MODEL
-from codetrain.call_llm import call_llm, call_llm_simple
+from codetrain import call_llm_simple
 
-# Use the built-in call_llm functions
+# Use the built-in call_llm_simple for single prompts
 def analyze_text(text):
     return call_llm_simple(f"Analyze this: {text}")
+
+# For conversation history, use call_llm instead:
+# from codetrain import call_llm
+# messages = [{"role": "user", "content": "Hello"}]
+# response = call_llm(messages)
 ```
 
 **Never hardcode API keys!** Always use `codetrain.config` which loads from `.env`:
@@ -99,13 +103,13 @@ Utility function template:
 # utils/call_llm.py
 from codetrain import call_llm_simple
 
-def call_llm(prompt):
+def ask_llm(prompt):
     """Call LLM via OpenRouter using CodeTrain's config."""
     return call_llm_simple(prompt)
 
 if __name__ == "__main__":
     # Test the utility
-    print(call_llm("Say hello!"))
+    print(ask_llm("Say hello!"))
 ```
 
 ### 4. Manifest Design
@@ -138,7 +142,7 @@ Plan how each Job will read and write data.
 For each Job, describe:
 - **type**: Regular, Batch, or Async
 - **receive_order**: Read from manifest
-- **prepare_order**: Call utility functions (use call_llm from codetrain)
+- **prepare_order**: Call utility functions (use call_llm_simple from codetrain)
 - **ship_order**: Write to manifest and return action
 
 Example Job design:
@@ -232,7 +236,7 @@ my_codetrain_project/
 ├── hustle.py
 ├── utils/
 │   ├── __init__.py
-│   └── call_llm.py          # Uses codetrain.call_llm
+│   └── call_llm.py          # Uses codetrain.call_llm_simple
 ├── .env                      # API keys (never commit!)
 ├── requirements.txt
 └── docs/
@@ -307,12 +311,12 @@ manifest = {
 ```python
 from codetrain import call_llm_simple
 
-def call_llm(prompt):
+def ask_llm(prompt):
     """Call LLM via OpenRouter using CodeTrain's built-in config."""
     return call_llm_simple(prompt)
 
 if __name__ == "__main__":
-    print(call_llm("Test connection"))
+    print(ask_llm("Test connection"))
 ```
 
 **`jobs.py`**:
@@ -488,6 +492,37 @@ response = call_llm_simple("Your prompt here")
 ```
 
 **Never hardcode API keys!** Always use the config system.
+
+### Two Ways to Call the LLM
+
+CodeTrain provides two functions for different use cases:
+
+**1. `call_llm_simple(prompt)` - For simple prompts**
+```python
+from codetrain import call_llm_simple
+
+# Just pass a string - perfect for most tasks
+answer = call_llm_simple("What is Python?")
+summary = call_llm_simple(f"Summarize: {text}")
+```
+
+**2. `call_llm(messages)` - For conversations**
+```python
+from codetrain import call_llm
+
+# Pass a list of messages - for chatbots and multi-turn conversations
+messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"},
+    {"role": "assistant", "content": "Hi there!"},
+    {"role": "user", "content": "What's the weather?"}
+]
+response = call_llm(messages)
+```
+
+**Which to use?**
+- **Most Jobs**: Use `call_llm_simple()` - it's cleaner and simpler
+- **Chatbots/Conversations**: Use `call_llm()` - maintains conversation history
 
 ## Best Practices
 
