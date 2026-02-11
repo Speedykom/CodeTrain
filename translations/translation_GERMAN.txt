@@ -1,0 +1,3 @@
+[Deutsche Übersetzung] Welcome to CodeTrain!
+
+CodeTrain is a Python libra...
