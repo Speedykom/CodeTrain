@@ -13,7 +13,7 @@ This project uses [uv](https://github.com/astral-sh/uv) for dependency managemen
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/CodeTrain.git
+git clone https://github.com/Speedykom/CodeTrain.git
 cd CodeTrain
 
 # Install dependencies (creates .venv automatically)

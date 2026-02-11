@@ -6,19 +6,19 @@ A Python library for code training and learning.
 
 ### Using uv (recommended)
 ```bash
-uv pip install git+https://github.com/yourusername/CodeTrain.git
+uv pip install git+https://github.com/Speedykom/CodeTrain.git
 ```
 
 ### Using pip
 ```bash
-pip install git+https://github.com/yourusername/CodeTrain.git
+pip install git+https://github.com/Speedykom/CodeTrain.git
 ```
 
 ## Development Setup (with uv)
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/CodeTrain.git
+git clone https://github.com/Speedykom/CodeTrain.git
 cd CodeTrain
 
 # Create virtual environment and install dependencies

@@ -36,9 +36,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/CodeTrain"
-Repository = "https://github.com/yourusername/CodeTrain"
-Issues = "https://github.com/yourusername/CodeTrain/issues"
+Homepage = "https://github.com/Speedykom/CodeTrain"
+Repository = "https://github.com/Speedykom/CodeTrain"
+Issues = "https://github.com/Speedykom/CodeTrain/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["codetrain"]
